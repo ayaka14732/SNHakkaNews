@@ -2,7 +2,7 @@
 
 ## Motivation
 
-Shin Neng Hakka (兴宁客家话) is a (sub-)dialect of Hakka spoken in the Xingning City (兴宁市). The daily news section broadcast by Xingning Radio and Television Station (兴宁市广播电视台), which is called _Urban and Rural on One Line_ (城乡一线), is a high-quality resource of Shin Neng Hakka. The daily news is about 10 minutes in length, and the host’s voice is clear. This repository provides a list of all the videos and their permanent links from April 17, 2015 to the present.
+Shin Neng Hakka (兴宁客家话) is a (sub-)dialect of Hakka spoken in the Xingning City (兴宁市). The 10-minute daily news section broadcast by Xingning Radio and Television Station (兴宁市广播电视台), named _Urban and Rural on One Line_ (城乡一线), is a high-quality resource of Shin Neng Hakka. This repository provides a list of all the videos and their permanent links from 17 Apr 2015 to the present.
 
 ## Data format
 
