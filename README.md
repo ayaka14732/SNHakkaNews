@@ -17,15 +17,7 @@ The data is in CSV format, which consists of 4 columns:
 
 ## Backup of the videos
 
-To prevent more videos from becoming inaccessible due to expiry, videos that are currently accessible are backed up to Google Cloud Storage. You can access each video by its `VIDEO_KEY`.
-
-- gsutil URI: `gs://fantastisk-klynge/{VIDEO_KEY}`
-- HTTPS link: `https://storage.googleapis.com/fantastisk-klynge/{VIDEO_KEY}`
-
-Example: If the `VIDEO_KEY` is `20150417ACEGIK.mp4`, then
-
-- the gsutil URI would be `gs://fantastisk-klynge/20150417ACEGIK.mp4`
-- the HTTPS link would be `https://storage.googleapis.com/fantastisk-klynge/20150417ACEGIK.mp4`
+To prevent more videos from becoming inaccessible due to expiry, videos that are currently accessible are [backed up to the Internet Archive](https://archive.org/details/snhakkanews). You can access each video by its `VIDEO_KEY`.
 
 ## Update
 
