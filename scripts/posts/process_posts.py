@@ -123,7 +123,7 @@ class IDGenerator:
 id_generator = IDGenerator()
 
 with open('list.csv', 'w', encoding='utf-8') as f:
-    print('real_date,video_id,post_url,video_url', file=f)
+    print('video_date,video_id,post_url,video_url', file=f)
     for real_date, post_url, video_url in sorted(all_items):
         video_id = id_generator(post_url, video_url)
         print(str(real_date), video_id, post_url, video_url, sep=',', file=f)

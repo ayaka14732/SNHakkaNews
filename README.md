@@ -10,10 +10,10 @@
 
 # 数据格式
 
-- `DATE`: 视频日期
-- `POST_URL`: 文章链接
-- `VIDEO_URL`: 视频链接
-- `VIDEO_KEY`: 保存在互联网档案馆的文件名
+- `video_date`: 视频日期
+- `video_id`: 视频 ID
+- `post_url`: 文章链接
+- `video_url`: 视频链接
 
 # 制作方法
 
