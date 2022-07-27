@@ -6,11 +6,11 @@ broken_urls = [
     # no video date
     'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_764195.html',
     'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_769587.html',
-    # TODO: date wrong
-    'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_769454.html',
+    # wrong video date
     'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_769453.html',
+    'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_769454.html',
     'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_769455.html',
-    # No video url
+    # no video url
     'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_769144.html',
     'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_769583.html',
     'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_770603.html',
