@@ -10,10 +10,6 @@
 
 # 数据格式
 
-数据包含在两个 CSV 文件 `list.csv` 和 `list-sanitized.csv` 中。
-
-其中，`list.csv` 包含在本仓库制作时网络上可以访问的全部数据，但其中一部分数据有误，无法下载。`list-sanitized.csv` 只包含可下载的。
-
 - `DATE`: 视频日期
 - `POST_URL`: 文章链接
 - `VIDEO_URL`: 视频链接
@@ -23,10 +19,14 @@
 
 ## 往期视频
 
+往期视频的制作方法作为记录之用，仅供参考。
+
 ```sh
-cd scripts/scraper_old
+cd scripts/search_results
 ./download_search_results.sh
 python process_search_results.py
+cd ../posts
+python merge_post_urls.py
 ./download_posts.sh
 python process_posts.py
 ```

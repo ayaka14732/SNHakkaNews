@@ -9,6 +9,7 @@ broken_urls = [
     # TODO: date wrong
     'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_769454.html',
     'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_769453.html',
+    'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_769455.html',
     # No video url
     'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_769144.html',
     'http://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_769583.html',
@@ -25,7 +26,7 @@ def url_to_filename(url: str) -> str:
     return url.rsplit('/', 1)[1]
 
 def get_video_date(page: str) -> Tuple[Optional[int], int, int]:
-    match = re.search(r'<meta name="ArticleTitle" content="[ \t]*城乡一线（([^）"]+)[)）][ \t]*">', page)
+    match = re.search(r'<meta name="ArticleTitle" content="[ \t]*城乡一线[(（]([^）"]+)[)）][ \t]*">', page)
     if not match:
         raise ValueError('Cannot handle the page')
 
@@ -104,5 +105,25 @@ for post_url in post_urls:
 
     all_items.append((real_date, post_url, video_url))
 
-for real_date, post_url, video_url in sorted(all_items):
-    print(str(real_date), post_url, video_url, sep='\t')
+class IDGenerator:
+    def __init__(self) -> None:
+        self._d = {}
+
+    def __call__(self, post_url: str, video_url: str) -> int:
+        try:
+            return self._d[video_url]
+        except KeyError:
+            pass
+
+        video_id = re.fullmatch(r'.+?(\d+)\.html', post_url).group(1)
+        video_id = int(video_id)
+        self._d[video_url] = video_id
+        return video_id
+
+id_generator = IDGenerator()
+
+with open('list.csv', 'w', encoding='utf-8') as f:
+    print('real_date,video_id,post_url,video_url', file=f)
+    for real_date, post_url, video_url in sorted(all_items):
+        video_id = id_generator(post_url, video_url)
+        print(str(real_date), video_id, post_url, video_url, sep=',', file=f)
