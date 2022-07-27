@@ -1,2 +1,2 @@
 #!/bin/sh
-aria2c -c -i post_urls.txt -j128 -d posts
+aria2c -c --auto-file-renaming=false -i post_urls.txt -j1024 -d posts

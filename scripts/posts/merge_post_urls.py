@@ -24,6 +24,8 @@ with open('../legacy/list.csv', encoding='utf-8') as f:
 
         post_urls.add(post_url)
 
+assert len(set(post_url.rsplit('/', 1)[1] for post_url in post_urls)) == len(post_urls)
+
 with open('post_urls.txt', 'w', encoding='utf-8') as f:
     for post_url in sorted(post_urls, key=sort_criteria):
         print(post_url, file=f)
