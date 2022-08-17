@@ -1,15 +1,15 @@
 from bs4 import BeautifulSoup
 import datetime
-import os
 import re
 import requests
 from typing import Tuple
 
-if not os.path.exists('last_video_date'):
-    last_video_date = datetime.date(1970, 1, 1)
-else:
-    with open('last_video_date', encoding='utf-8') as f:
-        last_video_date = datetime.date.fromisoformat(f.read())
+def get_last_date() -> datetime.date:
+    with open('list.csv', encoding='utf-8') as f:
+        for line in f:
+            pass  # locate the last line
+        video_date, _, _, _ = line.rstrip('\n').split(',')
+        return datetime.date.fromisoformat(video_date)
 
 def download_url(url: str) -> str:
     response = requests.get(url)
@@ -49,6 +49,8 @@ def get_video_url(page: str) -> str:
     raise ValueError('Cannot handle the page')
 
 if __name__ == '__main__':
+    last_video_date = get_last_date()
+
     html_str = download_url('http://www.xingning.gov.cn/jrxn/spxw/cxyx/')
 
     new_posts = []
@@ -69,6 +71,3 @@ if __name__ == '__main__':
 
     for video_date, post_url, video_url in reversed(new_posts):
         print(video_date, post_url, video_url, sep='\t')
-
-    with open('last_video_date', 'w', encoding='utf-8') as f:
-        f.write(str(new_posts[0][0]))
