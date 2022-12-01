@@ -56,7 +56,7 @@ if __name__ == '__main__':
     new_posts = []
 
     for li in BeautifulSoup(html_str, features='html.parser').select('.g_main .list_right .listpicture_box ul li'):
-        title = li.select_one('p').get_text()
+        title = li.select_one('p').get_text().replace(' ', '')
         post_url = li.select_one('a')['href']
         month, day = title2date(title)
         video_date = determine_video_date(month, day)
