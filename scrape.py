@@ -51,7 +51,7 @@ def get_video_url(page: str) -> str:
 if __name__ == '__main__':
     last_video_date = get_last_date()
 
-    html_str = download_url('http://www.xingning.gov.cn/jrxn/spxw/cxyx/')
+    html_str = download_url('http://www.xingning.gov.cn/jrxn/spxw/cxyx/index.html')
 
     new_posts = []
 
