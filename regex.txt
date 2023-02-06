@@ -1,5 +1,0 @@
-^([^\t]+)\t(https?://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_(\d+).html)\t(.+)$\s+
-$1,$3,$2,$4
-
-^(2[^,]+),([^,]+),([^,]+),([^,]+)
-aget $4 -o $1.mp4

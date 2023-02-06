@@ -17,30 +17,17 @@
 
 # 制作方法
 
-## 往期视频
-
-往期视频的制作方法作为记录之用，仅供参考。
-
 ```sh
-cd scripts/search_results
-./download_search_results.sh
-python process_search_results.py
-cd ../posts
-python merge_post_urls.py
-./download_posts.sh
-python process_posts.py
+python -m venv venv
+. venv/bin/activate
+pip install -U pip
+pip install -r requirements.txt
 ```
 
-## 最新视频
+Copy `.env.template` to `.env`, and edit.
 
-```sh
-cd scripts/scraper
-python main.py
+Add to cron:
+
 ```
-
-## 检查列表
-
-```sh
-python check.py
-grep -v ERROR list.csv > list-sanitized.csv
+35 6 * * * /path/to/dir/update.sh
 ```
