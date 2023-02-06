@@ -69,4 +69,4 @@ if __name__ == '__main__':
 
     with open('list.csv', 'w', encoding='utf-8') as f:
         for date, (post_id, post_url, video_url) in sorted(data.items()):
-            print(date, post_id, post_url, video_url, sep=',')
+            print(date, post_id, post_url, video_url, sep=',', file=f)
