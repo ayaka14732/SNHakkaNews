@@ -2,30 +2,15 @@ from bs4 import BeautifulSoup
 import datetime
 import re
 import requests
-from typing import Tuple
+import sys
 
-def get_last_date() -> datetime.date:
-    with open('list.csv', encoding='utf-8') as f:
-        for line in f:
-            pass  # locate the last line
-        video_date, _, _, _ = line.rstrip('\n').split(',')
-        return datetime.date.fromisoformat(video_date)
-
-def download_url(url: str) -> str:
-    response = requests.get(url)
-    response.raise_for_status()
-    return response.text
-
-def title2date(title: str) -> Tuple[int, int]:
+def determine_date(title: str) -> str:
     date_str = re.fullmatch(r'城乡一线（(.+)）', title).group(1)
     month, day = re.fullmatch(r'(\d{1,2})月(\d{1,2})日', date_str).group(1, 2)
 
     month = int(month)
     day = int(day)
 
-    return month, day
-
-def determine_video_date(month: int, day: int) -> datetime.date:
     today = datetime.date.today()
     threshold = datetime.timedelta(days=60)
     lower_range = today - threshold
@@ -33,14 +18,20 @@ def determine_video_date(month: int, day: int) -> datetime.date:
 
     for year in range(today.year - 1, today.year + 1 + 1):
         try:
-            video_date = datetime.date(year, month, day)
+            date = datetime.date(year, month, day)
         except ValueError:
             continue
 
-        if lower_range < video_date < upper_range:
-            return video_date
+        if lower_range < date < upper_range:
+            return date.strftime('%Y-%m-%d')
 
     raise ValueError('Cannot determine real date')
+
+def download_url(url: str) -> str:
+    sys.stderr.write(f'Requesting {url}\n')
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.text
 
 def get_video_url(page: str) -> str:
     match = re.search(r'http.+?gdvideo\.southcn\.com.+?\.mp4', page)
@@ -48,26 +39,34 @@ def get_video_url(page: str) -> str:
         return match.group(0).replace('\\', '')
     raise ValueError('Cannot handle the page')
 
+def get_post_id(post_url: str) -> int:
+    match = re.search(r'https?://www.xingning.gov.cn/jrxn/spxw/cxyx/content/post_(\d+).html', post_url)
+    if match:
+        return int(match.group(1))
+    raise ValueError('Cannot handle the post URL')
+
 if __name__ == '__main__':
-    last_video_date = get_last_date()
+    data = {}
 
-    html_str = download_url('http://www.xingning.gov.cn/jrxn/spxw/cxyx/index.html')
+    with open('list.csv', encoding='utf-8') as f:
+        for line in f:
+            date, post_id, post_url, video_url = line.rstrip('\n').split(',')
+            post_id = int(post_id)
+            data[date] = post_id, post_url, video_url
 
-    new_posts = []
+    html_str = download_url('https://www.xingning.gov.cn/jrxn/spxw/cxyx/index.html')
+    soup = BeautifulSoup(html_str, features='html.parser')
+    video_items = soup.select('.g_main .list_right .listpicture_box ul li')
 
-    for li in BeautifulSoup(html_str, features='html.parser').select('.g_main .list_right .listpicture_box ul li'):
-        title = li.select_one('p').get_text().replace(' ', '')
+    for li in video_items:
         post_url = li.select_one('a')['href']
-        month, day = title2date(title)
-        video_date = determine_video_date(month, day)
-
-        if video_date <= last_video_date:
-            break
-
+        post_id = get_post_id(post_url)
+        title = li.select_one('p').get_text().replace(' ', '')
+        date = determine_date(title)
         page = download_url(post_url)
         video_url = get_video_url(page)
+        data[date] = post_id, post_url, video_url
 
-        new_posts.append((video_date, post_url, video_url))
-
-    for video_date, post_url, video_url in reversed(new_posts):
-        print(video_date, post_url, video_url, sep='\t')
+    with open('list.csv', 'w', encoding='utf-8') as f:
+        for date, (post_id, post_url, video_url) in sorted(data.items()):
+            print(date, post_id, post_url, video_url, sep=',')
