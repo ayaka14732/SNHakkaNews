@@ -10,7 +10,7 @@ python scrape.py
 
 GIT_CHANGED=$(git status --porcelain)
 if [[ $GIT_CHANGED ]]; then
-    RESULT=$(git diff -U0 list.csv | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)' | sed 's/^[+]//g' | perl -pe 's/^(\d+)-(\d+)-(\d+),(.+),(.+),(.+)$/curl -x socks5://127.0.0.1:1081 -o \1\2\3.mp4 \6/g')
+    RESULT=$(git diff -U0 list.csv | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)' | sed 's/^[+]//g' | perl -pe 's|^(\d+)-(\d+)-(\d+),(.+),(.+),(.+)$|curl -x socks5://127.0.0.1:1081 -o \1\2\3.mp4 \6|g')
 
     curl "https://api.telegram.org/$BOT_TOKEN/sendMessage" -d "chat_id=$CHAT_ID" -d "text=\`\`\`
 $RESULT
